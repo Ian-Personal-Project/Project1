@@ -60,3 +60,10 @@ jobs:
         if: failure()
         run: |
           echo "$(date +'%Y-%m-%d %H:%M:%S') - CD failed for repository ${{ github.repository }}" >> ci_cd_failures.log
+
+      - name: Upload failure log
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ci_cd_failures_log
+          path: ci_cd_failures.log
