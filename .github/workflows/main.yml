@@ -36,6 +36,10 @@ jobs:
     needs: ci  # This makes sure CD will only run if CI passes
 
     steps:
+      - name: Grant Docker permission to GitHub Actions runner
+        run: |
+          sudo usermod -aG docker $USER
+          newgrp docker
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -63,7 +67,7 @@ jobs:
 
       - name: Upload failure log
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ci_cd_failures_log
           path: ci_cd_failures.log
